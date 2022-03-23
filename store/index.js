@@ -16,7 +16,7 @@ export const mutations = {
   },
   clearForm(state, formKey) {
     for (const key in state.form[formKey]) {
-      state[formKey][key] = ''
+      state.form[formKey][key] = ''
     }
   },
 }
