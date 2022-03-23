@@ -1,6 +1,7 @@
 export const state = () => ({
   form: {
     signup: { loginid: '', password: '' },
+    login: { loginid: '', password: '' },
   },
 })
 export const mutations = {
