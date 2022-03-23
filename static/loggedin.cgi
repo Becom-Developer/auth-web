@@ -13,7 +13,7 @@ my @headers = (
     -cookie  => [$cookie],
 );
 print $q->header(@headers);
-my $redirect_url = "https://api-web.becom.co.jp/";
+my $redirect_url = "https://auth-web.becom.co.jp/";
 my $html         = <<"END_HTML";
 <!DOCTYPE html>
 <html lang="ja">
