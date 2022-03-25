@@ -13,27 +13,24 @@ my @headers = (
     -cookie  => [$cookie],
 );
 print $q->header(@headers);
-my $redirect_url = "https://api-web.becom.co.jp/";
+my $redirect_url = "https://auth-web.becom.co.jp/";
 my $html         = <<"END_HTML";
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Refresh" content="0; URL=$redirect_url">
   <title>hello</title>
 </head>
-
 <body>
-    <h1>hello</h1>
-    <div>
-      <p>
-        ５秒以上たってもページに遷移しない場合は下記のリンクをクリックしてください。
-     </p>
-      <a href="$redirect_url">$redirect_url</a>
-    </div>
+  <h1>hello</h1>
+  <div>
+    <p>
+      ５秒以上たってもページに遷移しない場合は下記のリンクをクリックしてください。
+    </p>
+    <a href="$redirect_url">$redirect_url</a>
+  </div>
 </body>
-
 </html>
 END_HTML
 

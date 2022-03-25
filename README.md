@@ -25,8 +25,23 @@ npm run generate
 
 公開環境へ `scp` コマンドで送信
 
+初回のみ公開環境でディレクトを作成しておく
+
+```sh
+ssh becom2022@becom2022.sakura.ne.jp
+mkdir ~/www/auth-web
+```
+
+２回目以降は下記の送信のみ
+
 ```zsh
-scp -r ~/github/auth-web/dist becom@becom.sakura.ne.jp:~/www/auth-web
+scp -r ~/github/auth-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/auth-web/
+```
+
+### HTTP
+
+```text
+https://auth-web.becom.co.jp/
 ```
 
 ## Build Setup
