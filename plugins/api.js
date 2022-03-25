@@ -1,6 +1,5 @@
 export default function ({ app }, inject) {
-    const url = 'https://auth-api.becom.co.jp/beauth.cgi'
-    // const url = 'http://localhost:8000/cgi-bin/beauth.cgi'
+    const url = 'https://auth-api.becom.co.jp/'
     inject('authapi', (qParams) => {
       return app.$axios.$post(url, {
         resource: qParams[0],
