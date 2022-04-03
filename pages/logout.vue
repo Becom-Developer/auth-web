@@ -71,21 +71,19 @@ export default {
   methods: {
     ...mapMutations(['addForm', 'clearForm']),
     async sendForm() {
-      // sendForm() {
       this.isCompleted = false
       this.isError = false
-      // console.log(this.form.logout)
       const res = await this.$authapi(['login', 'end', this.form.logout])
       this.res = res
-      // console.log(res)
       if ('error' in res) {
         this.isError = true
-      } else {
-        this.isCompleted = true
-        this.clearForm('logout')
-        const sid = res.sid
-        window.location = `/loggedout.cgi?sid=${sid}`
-      }
+      } else if (res.status === 400) {
+          this.isError = true
+        } else {
+          this.isCompleted = true
+          this.clearForm('logout')
+          window.location = `/loggedout.cgi`
+        }
     },
   },
 }
