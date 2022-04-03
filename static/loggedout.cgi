@@ -3,10 +3,8 @@ use strict;
 use warnings;
 use utf8;
 use CGI;
-my $q   = CGI->new();
-my $sid = $q->param('sid');
-my $cookie =
-"sid=$sid;Max-Age=100000;domain=.becom.co.jp;path=/;samesite=none;secure;httponly";
+my $q       = CGI->new();
+my $cookie  = "sid=;Max-Age=0;";
 my @headers = (
     -type    => 'text/html',
     -charset => 'utf-8',
