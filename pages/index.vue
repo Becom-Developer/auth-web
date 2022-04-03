@@ -37,6 +37,15 @@
               >logout</b-btn
             >
           </b-tab>
+          <b-tab v-if="loggedin" title="user">
+            <b-card-text>登録ユーザー情報</b-card-text>
+            <b-btn
+              block
+              variant="outline-secondary"
+              @click="$router.push('/user')"
+              >user</b-btn
+            >
+          </b-tab>
         </b-tabs>
       </b-card>
     </div>
@@ -44,5 +53,21 @@
 </template>
 
 <script>
-export default {}
+import { mapMutations, mapState } from 'vuex'
+export default {
+  computed: {
+    ...mapState(['loggedin']),
+  },
+  async created() {
+    const sid = 'aW5mb0BiZWNvbS5jby5qcDoyMDIyLTA0LTEzIDIxOjEyOjAzOjAzODU='
+    const res = await this.$authapi(['login', 'status', { sid }])
+    this.addState({ stateKey: 'loggedin', data: false })
+    if (res.status === 200) {
+      this.addState({ stateKey: 'loggedin', data: true })
+    }
+  },
+  methods: {
+    ...mapMutations(['addState']),
+  },
+}
 </script>

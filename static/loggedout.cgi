@@ -4,7 +4,7 @@ use warnings;
 use utf8;
 use CGI;
 my $q       = CGI->new();
-my $cookie  = "sid=;Max-Age=0;";
+my $cookie  = "sid=;Max-Age=0;domain=.becom.co.jp;path=/;";
 my @headers = (
     -type    => 'text/html',
     -charset => 'utf-8',
