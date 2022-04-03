@@ -2,6 +2,7 @@ export const state = () => ({
   form: {
     signup: { loginid: '', password: '' },
     login: { loginid: '', password: '' },
+    logout: { loginid: '' },
   },
 })
 export const mutations = {
