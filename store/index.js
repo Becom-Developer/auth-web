@@ -9,7 +9,6 @@ export const state = () => ({
 })
 export const mutations = {
   addState(state, { stateKey, data }) {
-    console.log('state')
     state[stateKey] = data
   },
   addForm(state, { formKey, row }) {

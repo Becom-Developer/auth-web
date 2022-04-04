@@ -5,71 +5,70 @@
       <b-btn variant="primary" @click="$router.push('/')">トップへ戻る</b-btn>
     </b-jumbotron>
     <p>検索条件入力フォーム</p>
-    <p>検索実行ボタン</p>
-    <p>検索該当件数</p>
-    <p>結果のリスト</p>
-    <div class="overflow-auto">
-      <b-pagination
-        v-model="currentPage"
-        :total-rows="rows2"
-        :per-page="perPage"
-        aria-controls="my-table"
-      ></b-pagination>
-
-      <p class="mt-3">Current Page: {{ currentPage }}</p>
-
-      <b-table
-        id="my-table"
-        :items="items2"
-        :per-page="perPage"
-        :current-page="currentPage"
-        small
-      ></b-table>
-      <p :current-page="currentPage"></p>
+    <!-- 検索 -->
+    <div class="mb-3">
+      <b-card header="検索条件入力フォーム" header-tag="header" title="項目">
+        <b-card-text>登録ユーザー情報</b-card-text>
+        <b-btn block size="sm" @click="getList">一覧取得実行</b-btn>
+      </b-card>
     </div>
-
-    <p>結果の詳細、編集、新規入力</p>
-
-    <b-container>
-      <b-row v-for="user in userList" :key="user.id" class="mb-1">
-        <b-col cols="1">{{ user.id }}</b-col>
-        <b-col>{{ user.loginid }}</b-col>
-        <b-col cols="3">
-          <b-btn block size="sm" @click="detailShow(user)">詳細</b-btn>
-        </b-col>
-      </b-row></b-container
-    >
-
-    <div>
-      <b-card no-body>
-        <b-tabs card class="text-center">
-          <b-tab title="user">
-            <b-card-text>登録ユーザー情報</b-card-text>
-            <b-container fluid class="p-0">
-              <b-card title="ユーザー情報一覧取得" sub-title="Card subtitle">
-                <b-btn block size="sm" @click="getList">一覧取得実行</b-btn>
-                <div>
-                  <p>{{ detail }}</p>
-                  <p>{{ detail.loginid }}</p>
-                </div>
-                <b-alert
-                  variant="success"
-                  dismissible
-                  :show="isCompleted"
-                  @dismissed="isCompleted = false"
-                  >ログインは成功しました。{{ res }}</b-alert
-                >
-                <b-alert
-                  variant="danger"
-                  dismissible
-                  :show="isError"
-                  @dismissed="isError = false"
-                  >ログインは失敗しました。{{ res }}</b-alert
-                >
-              </b-card>
-            </b-container>
-          </b-tab>
-        </b-tabs>
+    <!-- 検索結果リスト -->
+    <div class="mb-3">
+      <b-card header="検索結果" header-tag="header" title="項目">
+        <b-card-text>結果のリスト</b-card-text>
+        <div class="overflow-auto">
+          <p class="mt-3">Current Page: {{ currentPage }}</p>
+          <b-table
+            id="my-table"
+            :items="items"
+            :per-page="perPage"
+            :current-page="currentPage"
+            :fields="['id', 'loginid', 'show_details']"
+            small
+            hover
+          >
+            <template #cell(show_details)="row">
+              <b-btn size="sm" class="mr-2" @click="showDetail(row)">
+                Details
+              </b-btn>
+            </template>
+          </b-table>
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="my-table"
+            align="center"
+          ></b-pagination>
+        </div>
+        <div v-if="isDetail">
+          <ul>
+            <li
+              v-for="col in [
+                'id',
+                'loginid',
+                'password',
+                'approved',
+                'deleted',
+                'created_ts',
+                'modified_ts',
+              ]"
+              :key="col.id"
+            >
+              {{ col }}: {{ detail[col] }}
+            </li>
+          </ul>
+        </div>
+      </b-card>
+    </div>
+    <!-- 検索結果詳細 -->
+    <div class="mb-3">
+      <b-card
+        header="結果の詳細、編集、新規入力"
+        header-tag="header"
+        title="項目"
+      >
+        <b-card-text>詳細</b-card-text>
       </b-card>
     </div>
   </b-container>
@@ -80,50 +79,20 @@ import { mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
+      isDetail: false,
       isCompleted: false,
       isError: false,
       res: {},
       detail: {},
-      perPage: 1,
+      perPage: 5,
       currentPage: 1,
-      items: [
-        { id: 1, first_name: 'Fred', last_name: 'Flintstone' },
-        { id: 2, first_name: 'Wilma', last_name: 'Flintstone' },
-        { id: 3, first_name: 'Barney', last_name: 'Rubble' },
-        { id: 4, first_name: 'Betty', last_name: 'Rubble' },
-        { id: 5, first_name: 'Pebbles', last_name: 'Flintstone' },
-        { id: 6, first_name: 'Bamm Bamm', last_name: 'Rubble' },
-        { id: 7, first_name: 'The Great', last_name: 'Gazzoo' },
-        { id: 8, first_name: 'Rockhead', last_name: 'Slate' },
-        { id: 9, first_name: 'Pearl', last_name: 'Slaghoople' },
-      ],
-      items2: [],
+      items: [],
     }
   },
   computed: {
     ...mapState(['form', 'loggedin', 'userList']),
     rows() {
       return this.items.length
-    },
-    rows2() {
-      return this.items2.length
-    },
-
-    loginid: {
-      get() {
-        return this.form.login.loginid
-      },
-      set(val) {
-        this.addForm({ formKey: 'login', row: { loginid: val } })
-      },
-    },
-    password: {
-      get() {
-        return this.form.login.password
-      },
-      set(val) {
-        this.addForm({ formKey: 'login', row: { password: val } })
-      },
     },
   },
   async created() {
@@ -139,21 +108,19 @@ export default {
   mounted() {},
   methods: {
     ...mapMutations(['addForm', 'clearForm', 'addState']),
-    detailShow(user) {
-      console.log('show')
-      this.detail = user
+    showDetail(row) {
+      this.isDetail = true
+      this.detail = row.item
     },
     async getList() {
-      console.log('getList')
       const sid = process.env.dummySid
       const res = await this.$authapi(['user', 'list', { sid }])
-      console.log(res)
       this.addState({ stateKey: 'userList', data: res })
-      const items2 = []
+      const items = []
       for (const user of res) {
-        items2.push({ id: user.id, loginid: user.loginid })
+        items.push(user)
       }
-      this.items2 = items2
+      this.items = items
     },
     async sendForm() {
       this.isCompleted = false
