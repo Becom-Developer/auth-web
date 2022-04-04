@@ -36,6 +36,9 @@
                   </b-col>
                 </b-row>
                 <b-btn block size="sm" @click="sendForm">ログイン実行</b-btn>
+                <b-btn block size="sm" @click="getList"
+                  >ユーザー情報一覧取得</b-btn
+                >
                 <b-alert
                   variant="success"
                   dismissible
@@ -89,7 +92,7 @@ export default {
     },
   },
   async created() {
-    const sid = 'aW5mb0BiZWNvbS5jby5qcDoyMDIyLTA0LTEzIDIzOjA5OjM3OjAwNzM='
+    const sid = process.env.dummySid
     const res = await this.$authapi(['login', 'status', { sid }])
     this.addState({ stateKey: 'loggedin', data: false })
     if (res.status === 200) {
@@ -101,6 +104,13 @@ export default {
   mounted() {},
   methods: {
     ...mapMutations(['addForm', 'clearForm', 'addState']),
+    async getList() {
+      console.log('getList')
+      const sid = process.env.dummySid
+
+      const res = await this.$authapi(['user', 'list', { sid }])
+      console.log(res)
+    },
     async sendForm() {
       this.isCompleted = false
       this.isError = false

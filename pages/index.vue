@@ -59,7 +59,7 @@ export default {
     ...mapState(['loggedin']),
   },
   async created() {
-    const sid = 'aW5mb0BiZWNvbS5jby5qcDoyMDIyLTA0LTEzIDIzOjA5OjM3OjAwNzM='
+    const sid = process.env.dummySid
     const res = await this.$authapi(['login', 'status', { sid }])
     this.addState({ stateKey: 'loggedin', data: false })
     if (res.status === 200) {

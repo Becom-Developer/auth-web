@@ -51,4 +51,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  env: {
+    dummySid: 'aW5mb0BiZWNvbS5jby5qcDoyMDIyLTA0LTE0IDE1OjM4OjI1OjA3MTE=',
+  },
 }
