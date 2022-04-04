@@ -4,10 +4,12 @@ export const state = () => ({
     login: { loginid: '', password: '' },
     logout: { loginid: '' },
   },
-  loggedin: false
+  loggedin: false,
+  userList: []
 })
 export const mutations = {
   addState(state, { stateKey, data }) {
+    console.log('state')
     state[stateKey] = data
   },
   addForm(state, { formKey, row }) {

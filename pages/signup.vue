@@ -94,7 +94,11 @@ export default {
     async sendForm() {
       this.isCompleted = false
       this.isError = false
-      const res = await this.$authapi(['login', 'signup', this.form.signup])
+      const params = {
+        ...this.form.signup,
+        "limitation": "100"
+      }
+      const res = await this.$authapi(['login', 'signup', params])
       this.res = res
       if ('error' in res) {
         this.isError = true
