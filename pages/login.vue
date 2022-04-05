@@ -101,7 +101,12 @@ export default {
         this.isCompleted = true
         this.clearForm('login')
         const sid = res.sid
-        window.location = `/loggedin.cgi?sid=${sid}`
+        if (process.env.mode === 'local') {
+          this.addSid(sid)
+          this.$router.push('/')
+        } else {
+          window.location = `/loggedin.cgi?sid=${sid}`
+        }
       }
     },
   },

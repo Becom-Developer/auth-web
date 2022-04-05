@@ -56,18 +56,22 @@
 import { mapMutations, mapState } from 'vuex'
 export default {
   computed: {
-    ...mapState(['loggedin']),
+    ...mapState(['loggedin', 'dummySid']),
   },
   async created() {
-    const sid = process.env.dummySid
+    let sid = ''
+    if (process.env.mode === 'local') {
+      sid = this.dummySid
+    }
     const res = await this.$authapi(['login', 'status', { sid }])
     this.addState({ stateKey: 'loggedin', data: false })
     if (res.status === 200) {
       this.addState({ stateKey: 'loggedin', data: true })
     }
   },
+  mounted() {},
   methods: {
-    ...mapMutations(['addState']),
+    ...mapMutations(['addState', 'addSid']),
   },
 }
 </script>

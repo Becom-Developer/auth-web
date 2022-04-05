@@ -78,12 +78,17 @@ export default {
       if ('error' in res) {
         this.isError = true
       } else if (res.status === 400) {
-          this.isError = true
+        this.isError = true
+      } else {
+        this.isCompleted = true
+        this.clearForm('logout')
+        if (process.env.mode === 'local') {
+          this.addSid('')
+          this.$router.push('/')
         } else {
-          this.isCompleted = true
-          this.clearForm('logout')
           window.location = `/loggedout.cgi`
         }
+      }
     },
   },
 }

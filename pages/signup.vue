@@ -90,13 +90,13 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['addForm', 'clearForm']),
+    ...mapMutations(['addForm', 'clearForm', 'addSid']),
     async sendForm() {
       this.isCompleted = false
       this.isError = false
       const params = {
         ...this.form.signup,
-        "limitation": "100"
+        limitation: '100',
       }
       const res = await this.$authapi(['login', 'signup', params])
       this.res = res
@@ -106,7 +106,12 @@ export default {
         this.isCompleted = true
         this.clearForm('signup')
         const sid = res.sid
-        window.location = `/loggedin.cgi?sid=${sid}`
+        if (process.env.mode === 'local') {
+          this.addSid(sid)
+          this.$router.push('/')
+        } else {
+          window.location = `/loggedin.cgi?sid=${sid}`
+        }
       }
     },
   },

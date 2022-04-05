@@ -24,7 +24,11 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/api.js' }, { src: '~/plugins/util.js' }],
+  plugins: [
+    { src: '~/plugins/api.js' },
+    { src: '~/plugins/util.js' },
+    { src: '~/plugins/localStorage.js', mode: 'client' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -45,7 +49,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://auth-api.becom.co.jp/',
+    // baseURL: 'https://auth-api.becom.co.jp/',
     credentials: true,
   },
 
@@ -53,5 +57,7 @@ export default {
   build: {},
   env: {
     dummySid: 'aW5mbzEwMEBiZWNvbS5jby5qcDoyMDIyLTA0LTE0IDE2OjI0OjAzOjA3MzI=',
+    mode: process.env.BEAUTH_MODE || 'local',
+    authURL: process.env.AUTH_URL || 'http://localhost:3000/',
   },
 }

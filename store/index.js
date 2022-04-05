@@ -5,9 +5,16 @@ export const state = () => ({
     logout: { loginid: '' },
   },
   loggedin: false,
-  userList: []
+  userList: [],
+  dummySid: '',
 })
 export const mutations = {
+  addSid(state, sid) {
+    if (process.env.mode === 'local') {
+      state.dummySid = sid
+      localStorage.setItem('beauth', JSON.stringify({ dummySid: sid }))
+    }
+  },
   addState(state, { stateKey, data }) {
     state[stateKey] = data
   },
