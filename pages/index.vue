@@ -10,7 +10,7 @@
     <div>
       <b-card no-body>
         <b-tabs card class="text-center">
-          <b-tab title="signup">
+          <b-tab v-if="loggedin === false" title="signup">
             <b-card-text>ユーザー登録とログインの実行をします</b-card-text>
             <b-btn
               block
@@ -19,7 +19,7 @@
               >signup</b-btn
             >
           </b-tab>
-          <b-tab title="login">
+          <b-tab v-if="loggedin === false" title="login">
             <b-card-text>ユーザーログインをします</b-card-text>
             <b-btn
               block
@@ -28,13 +28,22 @@
               >login</b-btn
             >
           </b-tab>
-          <b-tab title="logout">
+          <b-tab v-if="loggedin" title="logout">
             <b-card-text>ユーザーログアウトをします</b-card-text>
             <b-btn
               block
               variant="outline-secondary"
               @click="$router.push('/logout')"
               >logout</b-btn
+            >
+          </b-tab>
+          <b-tab v-if="loggedin" title="user">
+            <b-card-text>登録ユーザー情報</b-card-text>
+            <b-btn
+              block
+              variant="outline-secondary"
+              @click="$router.push('/user')"
+              >user</b-btn
             >
           </b-tab>
         </b-tabs>
@@ -44,5 +53,21 @@
 </template>
 
 <script>
-export default {}
+import { mapMutations, mapState } from 'vuex'
+export default {
+  computed: {
+    ...mapState(['loggedin']),
+  },
+  async created() {
+    const sid = process.env.dummySid
+    const res = await this.$authapi(['login', 'status', { sid }])
+    this.addState({ stateKey: 'loggedin', data: false })
+    if (res.status === 200) {
+      this.addState({ stateKey: 'loggedin', data: true })
+    }
+  },
+  methods: {
+    ...mapMutations(['addState']),
+  },
+}
 </script>

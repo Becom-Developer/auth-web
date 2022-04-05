@@ -4,6 +4,8 @@ export const state = () => ({
     login: { loginid: '', password: '' },
     logout: { loginid: '' },
   },
+  loggedin: false,
+  userList: []
 })
 export const mutations = {
   addState(state, { stateKey, data }) {
