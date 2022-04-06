@@ -90,13 +90,16 @@ export default {
     }
   },
   computed: {
-    ...mapState(['form', 'loggedin', 'userList']),
+    ...mapState(['form', 'loggedin', 'userList', 'dummySid']),
     rows() {
       return this.items.length
     },
   },
   async created() {
-    const sid = process.env.dummySid
+    let sid = ''
+    if (process.env.mode === 'local' || process.env.mode === 'staging') {
+      sid = this.dummySid
+    }
     const res = await this.$authapi(['login', 'status', { sid }])
     this.addState({ stateKey: 'loggedin', data: false })
     if (res.status === 200) {
@@ -113,7 +116,10 @@ export default {
       this.detail = row.item
     },
     async getList() {
-      const sid = process.env.dummySid
+      let sid = ''
+      if (process.env.mode === 'local' || process.env.mode === 'staging') {
+        sid = this.dummySid
+      }
       const res = await this.$authapi(['user', 'list', { sid }])
       this.addState({ stateKey: 'userList', data: res })
       const items = []

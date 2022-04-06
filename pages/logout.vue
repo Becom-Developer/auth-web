@@ -58,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['form']),
+    ...mapState(['form', 'dummySid']),
     loginid: {
       get() {
         return this.form.logout.loginid
@@ -69,21 +69,35 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['addForm', 'clearForm']),
+    ...mapMutations(['addForm', 'clearForm', 'addSid']),
     async sendForm() {
       this.isCompleted = false
       this.isError = false
-      const res = await this.$authapi(['login', 'end', this.form.logout])
+      let params = {
+        ...this.form.logout,
+      }
+      if (process.env.mode === 'local' || process.env.mode === 'staging') {
+        params = {
+          ...params,
+          sid: this.dummySid,
+        }
+      }
+      const res = await this.$authapi(['login', 'end', params])
       this.res = res
       if ('error' in res) {
         this.isError = true
       } else if (res.status === 400) {
-          this.isError = true
+        this.isError = true
+      } else {
+        this.isCompleted = true
+        this.clearForm('logout')
+        if (process.env.mode === 'local' || process.env.mode === 'staging') {
+          this.addSid('')
+          this.$router.push('/')
         } else {
-          this.isCompleted = true
-          this.clearForm('logout')
           window.location = `/loggedout.cgi`
         }
+      }
     },
   },
 }

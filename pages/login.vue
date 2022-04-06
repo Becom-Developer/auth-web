@@ -89,7 +89,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['addForm', 'clearForm']),
+    ...mapMutations(['addForm', 'clearForm', 'addSid']),
     async sendForm() {
       this.isCompleted = false
       this.isError = false
@@ -101,7 +101,12 @@ export default {
         this.isCompleted = true
         this.clearForm('login')
         const sid = res.sid
-        window.location = `/loggedin.cgi?sid=${sid}`
+        if (process.env.mode === 'local' || process.env.mode === 'staging') {
+          this.addSid(sid)
+          this.$router.push('/')
+        } else {
+          window.location = `/loggedin.cgi?sid=${sid}`
+        }
       }
     },
   },

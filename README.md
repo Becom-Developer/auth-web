@@ -14,13 +14,22 @@ rm -r auth-web
 npm run dev
 ```
 
-公開環境へ公開
-
-ローカル環境で dist 内に static なファイルを生成
+web, api ともにローカル起動
 
 ```zsh
-git fetch && git checkout main && git pull
-npm run generate
+npm run dev-local
+```
+
+api は公開環境のstg
+
+```zsh
+npm run dev-stg
+```
+
+公開環境用のファイル作成
+
+```zsh
+npm run generate-prod
 ```
 
 公開環境へ `scp` コマンドで送信
