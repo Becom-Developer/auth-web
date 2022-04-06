@@ -20,7 +20,7 @@ npm run dev
 
 ```zsh
 git fetch && git checkout main && git pull
-npm run generate
+npm run generate-prod
 ```
 
 公開環境へ `scp` コマンドで送信

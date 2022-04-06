@@ -49,7 +49,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // baseURL: 'https://auth-api.becom.co.jp/',
+    baseURL: process.env.AUTH_URL,
     credentials: true,
   },
 
