@@ -60,7 +60,7 @@ export default {
   },
   async created() {
     let sid = ''
-    if (process.env.mode === 'local') {
+    if (process.env.mode === 'local' || process.env.mode === 'staging') {
       sid = this.dummySid
     }
     const res = await this.$authapi(['login', 'status', { sid }])

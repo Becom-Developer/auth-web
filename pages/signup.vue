@@ -106,7 +106,7 @@ export default {
         this.isCompleted = true
         this.clearForm('signup')
         const sid = res.sid
-        if (process.env.mode === 'local') {
+        if (process.env.mode === 'local' || process.env.mode === 'staging') {
           this.addSid(sid)
           this.$router.push('/')
         } else {

@@ -10,7 +10,7 @@ export const state = () => ({
 })
 export const mutations = {
   addSid(state, sid) {
-    if (process.env.mode === 'local') {
+    if (process.env.mode === 'local' || process.env.mode === 'staging') {
       state.dummySid = sid
       localStorage.setItem('beauth', JSON.stringify({ dummySid: sid }))
     }

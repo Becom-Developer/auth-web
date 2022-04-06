@@ -76,7 +76,7 @@ export default {
       let params = {
         ...this.form.logout,
       }
-      if (process.env.mode === 'local') {
+      if (process.env.mode === 'local' || process.env.mode === 'staging') {
         params = {
           ...params,
           sid: this.dummySid,
@@ -91,7 +91,7 @@ export default {
       } else {
         this.isCompleted = true
         this.clearForm('logout')
-        if (process.env.mode === 'local') {
+        if (process.env.mode === 'local' || process.env.mode === 'staging') {
           this.addSid('')
           this.$router.push('/')
         } else {

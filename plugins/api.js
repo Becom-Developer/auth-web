@@ -1,5 +1,4 @@
 export default function ({ app }, inject) {
-    // const url = 'https://auth-api.becom.co.jp/'
     const authURL = process.env.authURL
     inject('authapi', (qParams) => {
       return app.$axios.$post(authURL, {
