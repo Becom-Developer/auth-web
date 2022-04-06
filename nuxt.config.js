@@ -56,7 +56,6 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   env: {
-    dummySid: 'aW5mbzEwMEBiZWNvbS5jby5qcDoyMDIyLTA0LTE0IDE2OjI0OjAzOjA3MzI=',
     mode: process.env.BEAUTH_MODE || 'local',
     authURL: process.env.AUTH_URL || 'http://localhost:3000/',
   },

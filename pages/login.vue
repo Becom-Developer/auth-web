@@ -89,7 +89,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['addForm', 'clearForm']),
+    ...mapMutations(['addForm', 'clearForm', 'addSid']),
     async sendForm() {
       this.isCompleted = false
       this.isError = false

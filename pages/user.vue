@@ -116,7 +116,10 @@ export default {
       this.detail = row.item
     },
     async getList() {
-      const sid = process.env.dummySid
+      let sid = ''
+      if (process.env.mode === 'local') {
+        sid = this.dummySid
+      }
       const res = await this.$authapi(['user', 'list', { sid }])
       this.addState({ stateKey: 'userList', data: res })
       const items = []
