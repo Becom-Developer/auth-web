@@ -9,7 +9,8 @@
 echo '16.14.2' >> .nvmrc
 cd ./
 npm init nuxt-app auth-web
-mv -n auth-web/* auth-web/.[^\.]* .
+mv -n auth-web/* .
+mv -n auth-web/.[^\.]* .
 rm -r auth-web
 npm run dev
 ```
