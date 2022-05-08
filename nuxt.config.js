@@ -78,5 +78,6 @@ export default {
   env: {
     mode: process.env.BEAUTH_MODE || 'local',
     authApiURL: process.env.AUTH_API_URL || 'http://localhost:3000/',
+    authWebURL: process.env.AUTH_WEB_URL || 'http://localhost:4000/',
   },
 }

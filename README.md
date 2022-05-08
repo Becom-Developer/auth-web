@@ -4,6 +4,49 @@
 
 ## Setup
 
+事前に`nvm`を使えるようにしておき指定バージョンのnode.jsを使えるように
+
+git clone にてソースコードを配置後プロジェクト配下にて指定のモジュールをインストール
+
+```zsh
+npm install
+```
+
+## Work
+
+ローカル開発時の起動方法など
+
+web, api ともにローカル起動
+
+```zsh
+npm run dev-local
+```
+
+リクエスト
+
+```zsh
+open 'http://localhost:4000/'
+```
+
+公開環境へデプロイ
+
+```zsh
+npm run generate-prod
+scp -r ~/github/auth-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/auth-web/
+```
+
+### HTTP
+
+```text
+https://auth-web.becom.co.jp/
+```
+
+## Memo
+
+### Environment
+
+初動時の環境構築に関するメモ
+
 ```text
 ローカル環境 node.js / nvm が使える前提
 echo '16.14.2' >> .nvmrc
@@ -15,43 +58,15 @@ rm -r auth-web
 npm run dev
 ```
 
-web, api ともにローカル起動
-
-```zsh
-npm run dev-local
-```
-
-api は公開環境のstg
-
-```zsh
-npm run dev-stg
-```
-
-公開環境用のファイル作成
-
-```zsh
-npm run generate-prod
-```
-
-公開環境へ `scp` コマンドで送信
-
-初回のみ公開環境でディレクトを作成しておく
+公開環境
 
 ```sh
+npm run generate-prod
+# 初回のみ公開環境でディレクトを作成しておく
 ssh becom2022@becom2022.sakura.ne.jp
 mkdir ~/www/auth-web
-```
-
-２回目以降は下記の送信のみ
-
-```zsh
+# 公開環境へ `scp` コマンドで送信
 scp -r ~/github/auth-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/auth-web/
-```
-
-### HTTP
-
-```text
-https://auth-web.becom.co.jp/
 ```
 
 ## Build Setup
