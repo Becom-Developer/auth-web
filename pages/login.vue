@@ -80,7 +80,6 @@
     </div>
   </b-container>
 </template>
-
 <script>
 import { mapMutations, mapState } from 'vuex'
 export default {
