@@ -64,7 +64,7 @@
             >入力値をクリア</b-btn
           >
         </div>
-        <!-- 検索状況お知らせ -->
+        <!-- 状況お知らせ -->
         <div class="text-center">
           <b-alert variant="success" :show="isCompleted"
             >ログインは成功しました</b-alert
