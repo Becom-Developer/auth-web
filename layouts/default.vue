@@ -9,15 +9,22 @@
         <b-navbar-nav>
           <b-nav-item @click="$router.push('/')">top</b-nav-item>
         </b-navbar-nav>
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto"> </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown v-if="loggedin" text="User" right>
+            <b-dropdown-item href="/logout">logout</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
       </b-collapse>
     </b-navbar>
     <Nuxt />
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
+  computed: {
+    ...mapState(['loggedin']),
+  },
   methods: {},
 }
 </script>

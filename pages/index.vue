@@ -19,10 +19,9 @@
       </b-dropdown>
     </div>
     <!-- サインアップ・新規登録 -->
-    <div class="mb-3">
+    <div v-if="loggedin === false" class="mb-3">
       <b-card header="新規ユーザー登録" header-tag="header" title="">
-        <b-card-text>ユーザー登録とログインの実行をします</b-card-text>
-
+        <b-card-text>新規ユーザー登録をします</b-card-text>
         <b-btn
           block
           variant="outline-secondary"
@@ -34,10 +33,9 @@
       </b-card>
     </div>
     <!-- ログイン -->
-    <div class="mb-3">
+    <div v-if="loggedin === false" class="mb-3">
       <b-card header="ユーザーログイン" header-tag="header" title="">
         <b-card-text>ユーザーログインをします</b-card-text>
-
         <b-btn
           block
           variant="outline-secondary"
@@ -48,47 +46,32 @@
         >
       </b-card>
     </div>
-
-    <div>
-      <b-card no-body>
-        <b-tabs card class="text-center">
-          <b-tab v-if="loggedin === false" title="signup">
-            <b-card-text>ユーザー登録とログインの実行をします</b-card-text>
-            <b-btn
-              block
-              variant="outline-secondary"
-              @click="$router.push('/signup')"
-              >signup</b-btn
-            >
-          </b-tab>
-          <b-tab v-if="loggedin === false" title="login">
-            <b-card-text>ユーザーログインをします</b-card-text>
-            <b-btn
-              block
-              variant="outline-secondary"
-              @click="$router.push('/login')"
-              >login</b-btn
-            >
-          </b-tab>
-          <b-tab v-if="loggedin" title="logout">
-            <b-card-text>ユーザーログアウトをします</b-card-text>
-            <b-btn
-              block
-              variant="outline-secondary"
-              @click="$router.push('/logout')"
-              >logout</b-btn
-            >
-          </b-tab>
-          <b-tab v-if="loggedin" title="user">
-            <b-card-text>登録ユーザー情報</b-card-text>
-            <b-btn
-              block
-              variant="outline-secondary"
-              @click="$router.push('/user')"
-              >user</b-btn
-            >
-          </b-tab>
-        </b-tabs>
+    <!-- ログアウト -->
+    <div v-if="loggedin" class="mb-3">
+      <b-card header="ユーザーログアウト" header-tag="header" title="">
+        <b-card-text>ユーザーログアウトをします</b-card-text>
+        <b-btn
+          block
+          variant="outline-secondary"
+          size="lg"
+          class="my-3"
+          @click="$router.push('/logout')"
+          >logout</b-btn
+        >
+      </b-card>
+    </div>
+    <!-- 登録ユーザー情報 -->
+    <div v-if="loggedin" class="mb-3">
+      <b-card header="登録ユーザー情報" header-tag="header" title="">
+        <b-card-text>登録ユーザー情報</b-card-text>
+        <b-btn
+          block
+          variant="outline-secondary"
+          size="lg"
+          class="my-3"
+          @click="$router.push('/user')"
+          >user</b-btn
+        >
       </b-card>
     </div>
   </b-container>
@@ -102,7 +85,7 @@ export default {
   },
   async created() {
     let sid = ''
-    if (process.env.mode === 'local' || process.env.mode === 'staging') {
+    if (process.env.mode === 'local') {
       sid = this.dummySid
     }
     const res = await this.$authapi(['login', 'status', { sid }])
