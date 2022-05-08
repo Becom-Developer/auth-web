@@ -1,59 +1,74 @@
 <template>
-  <b-container>
-    <b-jumbotron header="logout" lead="auth-web: logout">
-      <p>ログアウトの実行をします</p>
-      <b-btn variant="primary" @click="$router.push('/')">トップへ戻る</b-btn>
-    </b-jumbotron>
+  <b-container class="mb-5">
+    <!-- ログアウトの説明 -->
     <div>
-      <b-card no-body>
-        <b-tabs card class="text-center">
-          <b-tab title="logout">
-            <b-card-text>ログアウトの実行をします</b-card-text>
-            <b-container fluid class="p-0">
-              <b-card title="ログアウト実行" sub-title="Card subtitle">
-                <b-row class="my-1">
-                  <b-col sm="3" class="text-left">
-                    <label :for="`type-loginid`">loginid:</label>
-                  </b-col>
-                  <b-col sm="9">
-                    <b-form-input
-                      :id="`type-loginid`"
-                      v-model="loginid"
-                      :type="`text`"
-                    ></b-form-input>
-                  </b-col>
-                </b-row>
-                <b-btn block size="sm" @click="sendForm">ログアウト実行</b-btn>
-                <b-alert
-                  variant="success"
-                  dismissible
-                  :show="isCompleted"
-                  @dismissed="isCompleted = false"
-                  >ログアウトは成功しました。{{ res }}</b-alert
-                >
-                <b-alert
-                  variant="danger"
-                  dismissible
-                  :show="isError"
-                  @dismissed="isError = false"
-                  >ログアウトは失敗しました。{{ res }}</b-alert
-                >
-              </b-card>
-            </b-container>
-          </b-tab>
-        </b-tabs>
+      <b-dropdown
+        text="ログアウトの説明"
+        block
+        variant="danger"
+        class="my-2"
+        menu-class="w-100"
+        size="lg"
+      >
+        <b-dropdown-text style="">
+          新しくユーザーを作成したい場合はログアウトを実行してください。
+        </b-dropdown-text>
+        <b-dropdown-divider></b-dropdown-divider>
+        <b-dropdown-item href="/developers">開発者の方はこちら</b-dropdown-item>
+      </b-dropdown>
+    </div>
+    <!-- ログアウト入力フォーム -->
+    <div class="mb-3">
+      <b-card header="ログアウト" header-tag="header" title="">
+        <b-card-text>ログアウトの実行をします</b-card-text>
+        <!-- 特定のユーザーアクセスの場合はloginid直接指定のログアウト可能 -->
+        <!-- <b-row class="my-1">
+          <b-col sm="3" class="text-left">
+            <label :for="`type-loginid`">loginid:</label>
+          </b-col>
+          <b-col sm="9">
+            <b-form-input
+              :id="`type-loginid`"
+              v-model="loginid"
+              :type="`text`"
+              :readonly="false"
+              size="lg"
+            ></b-form-input>
+          </b-col>
+        </b-row> -->
+        <div v-if="isLoading">
+          <b-alert class="text-center" variant="light" :show="isLoading">
+            <b-spinner type="grow" small label="Small Spinning"></b-spinner>
+            <b-spinner type="grow" small label="Small Spinning"></b-spinner>
+            <b-spinner type="grow" small label="Small Spinning"></b-spinner>
+          </b-alert>
+        </div>
+        <div v-else>
+          <b-btn block size="lg" class="my-3" @click="sendForm"
+            >ログアウト実行</b-btn
+          >
+        </div>
+        <!-- 状況お知らせ -->
+        <div class="text-center">
+          <b-alert variant="success" :show="isCompleted"
+            >ログアウトは成功しました</b-alert
+          >
+          <b-alert variant="danger" :show="hasError"
+            >ログアウトは失敗しました<br />{{ res }}</b-alert
+          >
+        </div>
       </b-card>
     </div>
   </b-container>
 </template>
-
 <script>
 import { mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
       isCompleted: false,
-      isError: false,
+      hasError: false,
+      isLoading: false,
       res: {},
     }
   },
@@ -69,14 +84,14 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['addForm', 'clearForm', 'addSid']),
+    ...mapMutations(['addForm', 'addSid']),
     async sendForm() {
       this.isCompleted = false
-      this.isError = false
+      this.hasError = false
       let params = {
         ...this.form.logout,
       }
-      if (process.env.mode === 'local' || process.env.mode === 'staging') {
+      if (process.env.mode === 'local') {
         params = {
           ...params,
           sid: this.dummySid,
@@ -85,13 +100,13 @@ export default {
       const res = await this.$authapi(['login', 'end', params])
       this.res = res
       if ('error' in res) {
-        this.isError = true
+        this.hasError = true
       } else if (res.status === 400) {
-        this.isError = true
+        this.hasError = true
       } else {
         this.isCompleted = true
-        this.clearForm('logout')
-        if (process.env.mode === 'local' || process.env.mode === 'staging') {
+        this.addForm({ formKey: 'logout', row: { loginid: '' } })
+        if (process.env.mode === 'local') {
           this.addSid('')
           this.$router.push('/')
         } else {

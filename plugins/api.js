@@ -1,7 +1,7 @@
 export default function ({ app }, inject) {
-    const authURL = process.env.authURL
+    const authApiURL = process.env.authApiURL
     inject('authapi', (qParams) => {
-      return app.$axios.$post(authURL, {
+      return app.$axios.$post(authApiURL, {
         resource: qParams[0],
         method: qParams[1],
         params: qParams[2],

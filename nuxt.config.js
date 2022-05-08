@@ -8,16 +8,36 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'auth-web',
-    htmlAttrs: {
-      lang: 'ja',
-    },
+    htmlAttrs: { lang: 'ja', },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      { name: 'msapplication-TileColor', content: '#da532c' },
+      { name: 'theme-color', content: '#ffffff' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: '/apple-touch-icon.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        href: '/favicon-32x32.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        href: '/favicon-16x16.png',
+      },
+      // { rel: 'manifest', href: '/site.webmanifest' },
+      { rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#5bbad5' },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -49,7 +69,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.AUTH_URL,
+    baseURL: process.env.AUTH_API_URL,
     credentials: true,
   },
 
@@ -57,6 +77,7 @@ export default {
   build: {},
   env: {
     mode: process.env.BEAUTH_MODE || 'local',
-    authURL: process.env.AUTH_URL || 'http://localhost:3000/',
+    authApiURL: process.env.AUTH_API_URL || 'http://localhost:3000/',
+    authWebURL: process.env.AUTH_WEB_URL || 'http://localhost:4000/',
   },
 }
