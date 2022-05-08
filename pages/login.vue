@@ -73,64 +73,11 @@
             >正しく入力してください</b-alert
           >
           <b-alert variant="danger" :show="hasError"
-            >ログインは失敗しました</b-alert
+            >ログインは失敗しました<br />{{ res }}</b-alert
           >
         </div>
       </b-card>
     </div>
-
-    <!-- <div>
-      <b-card no-body>
-        <b-tabs card class="text-center">
-          <b-tab title="login">
-            <b-card-text>ログインの実行をします</b-card-text>
-            <b-container fluid class="p-0">
-              <b-card title="ログイン実行" sub-title="Card subtitle">
-                <b-row class="my-1">
-                  <b-col sm="3" class="text-left">
-                    <label :for="`type-loginid`">loginid:</label>
-                  </b-col>
-                  <b-col sm="9">
-                    <b-form-input
-                      :id="`type-loginid`"
-                      v-model="loginid"
-                      :type="`text`"
-                    ></b-form-input>
-                  </b-col>
-                </b-row>
-                <b-row class="my-1">
-                  <b-col sm="3" class="text-left">
-                    <label :for="`type-password`">password:</label>
-                  </b-col>
-                  <b-col sm="9">
-                    <b-form-input
-                      :id="`type-password`"
-                      v-model="password"
-                      :type="`text`"
-                    ></b-form-input>
-                  </b-col>
-                </b-row>
-                <b-btn block size="sm" @click="sendForm">ログイン実行</b-btn>
-                <b-alert
-                  variant="success"
-                  dismissible
-                  :show="isCompleted"
-                  @dismissed="isCompleted = false"
-                  >ログインは成功しました。{{ res }}</b-alert
-                >
-                <b-alert
-                  variant="danger"
-                  dismissible
-                  :show="isError"
-                  @dismissed="isError = false"
-                  >ログインは失敗しました。{{ res }}</b-alert
-                >
-              </b-card>
-            </b-container>
-          </b-tab>
-        </b-tabs>
-      </b-card>
-    </div> -->
   </b-container>
 </template>
 
@@ -140,12 +87,10 @@ export default {
   data() {
     return {
       isCompleted: false,
-      // isError: false,
-      res: {},
       hasError: false,
-
       hasValidError: false,
       isLoading: false,
+      res: {},
     }
   },
   computed: {
@@ -168,13 +113,12 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['addForm', 'addSid']),
+    ...mapMutations(['addForm', 'addSid', 'addState']),
     async sendForm() {
-      this.isCompleted = false
-      // this.isError = false
-      this.hasError = false
       this.hasValidError = false
+      this.isCompleted = false
       this.isLoading = true
+      this.hasError = false
       if (this.form.login.loginid === '' && this.form.login.password === '') {
         this.hasValidError = true
         this.isLoading = false
@@ -183,37 +127,28 @@ export default {
       const res = await this.$authapi(['login', 'start', this.form.login])
       this.res = res
       if ('error' in res) {
-        // this.isError = true
         this.hasError = true
       } else {
         this.isCompleted = true
-        // this.clearForm('login')
         this.addForm({ formKey: 'login', row: { loginid: '' } })
         this.addForm({ formKey: 'login', row: { password: '' } })
         const sid = res.sid
         if (process.env.mode === 'local') {
           this.addSid(sid)
-          // this.$router.push('/')
+          this.$router.push('/')
         } else {
           window.location = `/loggedin.cgi?sid=${sid}`
         }
+        this.addState({ stateKey: 'loggedin', data: true })
       }
       this.isLoading = false
     },
     clearForm() {
-      console.log('-------')
-      // this.clearForm('login')
       this.hasError = false
       this.hasValidError = false
       this.isCompleted = false
-
       this.addForm({ formKey: 'login', row: { loginid: '' } })
       this.addForm({ formKey: 'login', row: { password: '' } })
-
-      // this.buildInput({ inputKey: 'zipInput', row: { code: '' } })
-      // this.buildInput({ inputKey: 'zipInput', row: { pref: '' } })
-      // this.buildInput({ inputKey: 'zipInput', row: { city: '' } })
-      // this.buildInput({ inputKey: 'zipInput', row: { town: '' } })
     },
   },
 }
