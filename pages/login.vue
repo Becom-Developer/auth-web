@@ -112,7 +112,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['addForm', 'addSid', 'addState']),
+    ...mapMutations(['addForm', 'addSid', 'addState', 'addAuth']),
     async sendForm() {
       this.hasValidError = false
       this.isCompleted = false
@@ -139,6 +139,7 @@ export default {
           window.location = `/loggedin.cgi?sid=${sid}`
         }
         this.addState({ stateKey: 'loggedin', data: true })
+        this.addAuth({ key: 'loggedin', val: true })
       }
       this.isLoading = false
     },

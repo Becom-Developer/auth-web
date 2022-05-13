@@ -7,6 +7,7 @@ export const state = () => ({
   loggedin: false,
   userList: [],
   dummySid: '',
+  auth: { loggedin: false, user: {} },
 })
 export const mutations = {
   addSid(state, sid) {
@@ -24,6 +25,9 @@ export const mutations = {
         state.form[formKey][key] = row[key]
       }
     }
+  },
+  addAuth(state, { key, val }) {
+    state.auth[key] = val
   },
   clearForm(state, formKey) {
     for (const key in state.form[formKey]) {

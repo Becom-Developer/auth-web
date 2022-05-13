@@ -86,7 +86,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loggedin', 'dummySid']),
+    ...mapState(['loggedin', 'dummySid', 'auth']),
   },
   async created() {
     let sid = ''
@@ -95,15 +95,17 @@ export default {
     }
     const res = await this.$authapi(['login', 'status', { sid }])
     this.addState({ stateKey: 'loggedin', data: false })
+    this.addAuth({ key: 'loggedin', val: false })
     if (res.status === 200) {
       this.addState({ stateKey: 'loggedin', data: true })
+      this.addAuth({ key: 'loggedin', val: true })
     }
   },
   mounted() {
     this.reloadURL = process.env.authWebURL
   },
   methods: {
-    ...mapMutations(['addState', 'addSid']),
+    ...mapMutations(['addState', 'addSid', 'addAuth']),
   },
 }
 </script>
