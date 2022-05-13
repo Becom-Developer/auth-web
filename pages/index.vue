@@ -80,6 +80,11 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 export default {
+  data() {
+    return {
+      reloadURL: '',
+    }
+  },
   computed: {
     ...mapState(['loggedin', 'dummySid']),
   },
