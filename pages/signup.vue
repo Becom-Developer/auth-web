@@ -111,8 +111,11 @@ export default {
       },
     },
   },
+  async created() {
+    await this.$authCheck()
+  },
   methods: {
-    ...mapMutations(['addForm', 'addSid', 'addState', 'addAuth']),
+    ...mapMutations(['addForm', 'addSid', 'addAuth']),
     async sendForm() {
       this.hasValidError = false
       this.isCompleted = false
@@ -142,7 +145,6 @@ export default {
         } else {
           window.location = `/loggedin.cgi?sid=${sid}`
         }
-        this.addState({ stateKey: 'loggedin', data: true })
         this.addAuth({ key: 'loggedin', val: true })
       }
       this.isLoading = false

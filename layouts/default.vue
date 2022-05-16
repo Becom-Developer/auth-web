@@ -10,14 +10,9 @@
           <b-nav-item @click="$router.push('/')">top{{auth}}{{loggedin}}</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown v-if="loggedin" text="User" right>
-            <b-dropdown-item href="/logout">logout</b-dropdown-item>
-          </b-nav-item-dropdown>
           <b-nav-item-dropdown v-if="auth.loggedin" text="User" right>
             <b-dropdown-item href="/logout">logout</b-dropdown-item>
           </b-nav-item-dropdown>
-
-
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

@@ -19,7 +19,7 @@
       </b-dropdown>
     </div>
     <!-- サインアップ・新規登録 -->
-    <div v-if="loggedin === false" class="mb-3">
+    <div v-if="auth.loggedin === false" class="mb-3">
       <b-card header="新規ユーザー登録" header-tag="header" title="">
         <b-card-text>新規ユーザー登録をします</b-card-text>
         <b-btn
@@ -33,7 +33,7 @@
       </b-card>
     </div>
     <!-- ログイン -->
-    <div v-if="loggedin === false" class="mb-3">
+    <div v-if="auth.loggedin === false" class="mb-3">
       <b-card header="ユーザーログイン" header-tag="header" title="">
         <b-card-text>ユーザーログインをします</b-card-text>
         <b-btn
@@ -47,7 +47,7 @@
       </b-card>
     </div>
     <!-- ログアウト -->
-    <div v-if="loggedin" class="mb-3">
+    <div v-if="auth.loggedin" class="mb-3">
       <b-card header="ユーザーログアウト" header-tag="header" title="">
         <b-card-text>ユーザーログアウトをします</b-card-text>
         <b-btn
@@ -61,7 +61,7 @@
       </b-card>
     </div>
     <!-- 登録ユーザー情報 -->
-    <div v-if="loggedin" class="mb-3">
+    <div v-if="auth.loggedin" class="mb-3">
       <b-card header="登録ユーザー情報" header-tag="header" title="">
         <b-card-text>登録ユーザー情報</b-card-text>
         <b-btn
@@ -86,20 +86,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['loggedin', 'dummySid', 'auth']),
+    ...mapState(['dummySid', 'auth']),
   },
   async created() {
-    let sid = ''
-    if (process.env.mode === 'local') {
-      sid = this.dummySid
-    }
-    const res = await this.$authapi(['login', 'status', { sid }])
-    this.addState({ stateKey: 'loggedin', data: false })
-    this.addAuth({ key: 'loggedin', val: false })
-    if (res.status === 200) {
-      this.addState({ stateKey: 'loggedin', data: true })
-      this.addAuth({ key: 'loggedin', val: true })
-    }
+   await this.$authCheck()
   },
   mounted() {
     this.reloadURL = process.env.authWebURL

@@ -83,6 +83,9 @@ export default {
       },
     },
   },
+  async created() {
+    await this.$authCheck()
+  },
   methods: {
     ...mapMutations(['addForm', 'addSid', 'addAuth']),
     async sendForm() {
