@@ -61,7 +61,7 @@
       </b-card>
     </div>
     <!-- 登録ユーザー情報 -->
-    <div v-if="auth.loggedin" class="mb-3">
+    <div v-if="auth.user.limitation === 100" class="mb-3">
       <b-card header="登録ユーザー情報" header-tag="header" title="">
         <b-card-text>登録ユーザー情報</b-card-text>
         <b-btn

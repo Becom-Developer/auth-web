@@ -126,7 +126,7 @@ export default {
         this.isLoading = false
         return
       }
-      const params = { ...this.form.signup, limitation: '100' }
+      const params = { ...this.form.signup }
       const res = await this.$authapi(['login', 'signup', params])
       this.res = res
       if ('error' in res) {

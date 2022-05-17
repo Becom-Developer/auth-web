@@ -1,6 +1,6 @@
 export default ({ app, env }, inject) => {
   // 認証確認
-  inject('authCheck', async (msg) => {
+  inject('authCheck', async () => {
     let sid = ''
     if (env.mode === 'local') {
       sid = app.store.state.dummySid
@@ -11,8 +11,14 @@ export default ({ app, env }, inject) => {
     // ログイン中
     if (res.status === 200) {
       app.store.commit('addAuth', { key: 'loggedin', val: true })
+      app.store.commit('addAuth', { key: 'user', val: res.user })
       // ログイン中は非表示
       if (current === '/login' || current === '/signup') {
+        app.router.push('/')
+        return
+      }
+      // 一般ユーザーには表示しない
+      if (current === '/user' && res.user.limitation === 200) {
         app.router.push('/')
         return
       }
