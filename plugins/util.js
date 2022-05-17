@@ -18,6 +18,8 @@ export default ({ app, env }, inject) => {
       }
       return
     }
+    app.store.commit('addAuth', { key: 'loggedin', val: false })
+    app.store.commit('addAuth', { key: 'user', val: {} })
     // ログアウト中でも表示
     if (current === '/' || current === '/login' || current === '/signup') {
       return

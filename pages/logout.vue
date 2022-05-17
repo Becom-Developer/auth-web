@@ -116,6 +116,7 @@ export default {
           window.location = `/loggedout.cgi`
         }
         this.addAuth({ key: 'loggedin', val: false })
+        this.addAuth({ key: 'user', val: {} })
       }
     },
   },

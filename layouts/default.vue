@@ -6,11 +6,17 @@
       >
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
-          <b-nav-item @click="$router.push('/')">top{{auth}}{{loggedin}}</b-nav-item>
+        <b-navbar-nav v-if="auth.user.limitation === 100">
+          <b-nav-item disabled
+            ><b-badge variant="danger">管理者</b-badge></b-nav-item
+          >
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown v-if="auth.loggedin" text="User" right>
+          <b-nav-item-dropdown
+            v-if="auth.loggedin"
+            :text="auth.user.loginid"
+            right
+          >
             <b-dropdown-item href="/logout">logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

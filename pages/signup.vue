@@ -126,10 +126,7 @@ export default {
         this.isLoading = false
         return
       }
-      const params = {
-        ...this.form.signup,
-        limitation: '100',
-      }
+      const params = { ...this.form.signup, limitation: '100' }
       const res = await this.$authapi(['login', 'signup', params])
       this.res = res
       if ('error' in res) {
@@ -146,6 +143,7 @@ export default {
           window.location = `/loggedin.cgi?sid=${sid}`
         }
         this.addAuth({ key: 'loggedin', val: true })
+        this.addAuth({ key: 'user', val: res.user })
       }
       this.isLoading = false
     },

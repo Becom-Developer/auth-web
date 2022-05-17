@@ -142,6 +142,7 @@ export default {
           window.location = `/loggedin.cgi?sid=${sid}`
         }
         this.addAuth({ key: 'loggedin', val: true })
+        this.addAuth({ key: 'user', val: res.user })
       }
       this.isLoading = false
     },
