@@ -83,8 +83,11 @@ export default {
       },
     },
   },
+  async created() {
+    await this.$authCheck()
+  },
   methods: {
-    ...mapMutations(['addForm', 'addSid']),
+    ...mapMutations(['addForm', 'addSid', 'addAuth']),
     async sendForm() {
       this.isCompleted = false
       this.hasError = false
@@ -112,6 +115,8 @@ export default {
         } else {
           window.location = `/loggedout.cgi`
         }
+        this.addAuth({ key: 'loggedin', val: false })
+        this.addAuth({ key: 'user', val: {} })
       }
     },
   },

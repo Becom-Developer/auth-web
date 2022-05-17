@@ -90,27 +90,17 @@ export default {
     }
   },
   computed: {
-    ...mapState(['form', 'loggedin', 'userList', 'dummySid']),
+    ...mapState(['form', 'userList', 'dummySid', 'auth']),
     rows() {
       return this.items.length
     },
   },
   async created() {
-    let sid = ''
-    if (process.env.mode === 'local' || process.env.mode === 'staging') {
-      sid = this.dummySid
-    }
-    const res = await this.$authapi(['login', 'status', { sid }])
-    this.addState({ stateKey: 'loggedin', data: false })
-    if (res.status === 200) {
-      this.addState({ stateKey: 'loggedin', data: true })
-    } else {
-      this.$router.push('/')
-    }
+    await this.$authCheck()
   },
   mounted() {},
   methods: {
-    ...mapMutations(['addForm', 'clearForm', 'addState']),
+    ...mapMutations(['addForm', 'clearForm', 'addState', 'addAuth']),
     showDetail(row) {
       this.isDetail = true
       this.detail = row.item
@@ -137,7 +127,8 @@ export default {
         this.isError = true
       } else {
         this.isCompleted = true
-        this.clearForm('login')
+        this.addForm({ formKey: 'login', row: { loginid: '' } })
+        this.addForm({ formKey: 'login', row: { password: '' } })
         const sid = res.sid
         window.location = `/loggedin.cgi?sid=${sid}`
       }

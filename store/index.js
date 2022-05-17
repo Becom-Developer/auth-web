@@ -7,10 +7,11 @@ export const state = () => ({
   loggedin: false,
   userList: [],
   dummySid: '',
+  auth: { loggedin: false, user: {} },
 })
 export const mutations = {
   addSid(state, sid) {
-    if (process.env.mode === 'local' || process.env.mode === 'staging') {
+    if (process.env.mode === 'local') {
       state.dummySid = sid
       localStorage.setItem('beauth', JSON.stringify({ dummySid: sid }))
     }
@@ -25,9 +26,7 @@ export const mutations = {
       }
     }
   },
-  clearForm(state, formKey) {
-    for (const key in state.form[formKey]) {
-      state.form[formKey][key] = ''
-    }
+  addAuth(state, { key, val }) {
+    state.auth[key] = val
   },
 }

@@ -111,8 +111,11 @@ export default {
       },
     },
   },
+  async created() {
+    await this.$authCheck()
+  },
   methods: {
-    ...mapMutations(['addForm', 'addSid', 'addState']),
+    ...mapMutations(['addForm', 'addSid', 'addAuth']),
     async sendForm() {
       this.hasValidError = false
       this.isCompleted = false
@@ -123,10 +126,7 @@ export default {
         this.isLoading = false
         return
       }
-      const params = {
-        ...this.form.signup,
-        limitation: '100',
-      }
+      const params = { ...this.form.signup }
       const res = await this.$authapi(['login', 'signup', params])
       this.res = res
       if ('error' in res) {
@@ -142,7 +142,8 @@ export default {
         } else {
           window.location = `/loggedin.cgi?sid=${sid}`
         }
-        this.addState({ stateKey: 'loggedin', data: true })
+        this.addAuth({ key: 'loggedin', val: true })
+        this.addAuth({ key: 'user', val: res.user })
       }
       this.isLoading = false
     },
