@@ -7,28 +7,19 @@ export default ({ app, env }, inject) => {
     }
     const res = await app.$authapi(['login', 'status', { sid }])
     app.store.commit('addAuth', { key: 'loggedin', val: false })
+    const current = app.router.currentRoute.fullPath
     // ログイン中
     if (res.status === 200) {
       app.store.commit('addAuth', { key: 'loggedin', val: true })
       // ログイン中は非表示
-      if (app.router.currentRoute.fullPath === '/login') {
-        app.router.push('/')
-        return
-      }
-      if (app.router.currentRoute.fullPath === '/signup') {
+      if (current === '/login' || current === '/signup') {
         app.router.push('/')
         return
       }
       return
     }
     // ログアウト中でも表示
-    if (app.router.currentRoute.fullPath === '/') {
-      return
-    }
-    if (app.router.currentRoute.fullPath === '/login') {
-      return
-    }
-    if (app.router.currentRoute.fullPath === '/signup') {
+    if (current === '/' || current === '/login' || current === '/signup') {
       return
     }
     app.router.push('/')
