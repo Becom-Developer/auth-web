@@ -30,6 +30,17 @@ export default ({ app, env }, inject) => {
     if (current === '/' || current === '/login' || current === '/signup') {
       return
     }
+    // 試験中で表示
+    for (const path of [
+      '/auth/',
+      '/auth/login',
+      '/auth/logout',
+      '/auth/signup',
+    ]) {
+      if (current === path) {
+        return
+      }
+    }
     app.router.push('/')
   })
 }

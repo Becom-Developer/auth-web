@@ -18,64 +18,20 @@
         <b-dropdown-item :href="reloadURL">強制的に再読み込み</b-dropdown-item>
       </b-dropdown>
     </div>
-    <!-- メニュー -->
-    <div class="mb-3">
-      <b-card header="メニュー" header-tag="header" title="">
+    <!-- 開発者向けメニュー -->
+    <div  class="mb-3">
+      <b-card header="開発者向けメニュー" header-tag="header" title="">
         <b-card-text>開発者向けメニュー</b-card-text>
         <b-btn
           block
           variant="outline-secondary"
           size="lg"
           class="my-3"
-          @click="$router.push('/developers')"
-          >開発者向け</b-btn
-        >
-        <b-card-text>認証メニュー</b-card-text>
-        <b-btn
-          block
-          variant="outline-secondary"
-          size="lg"
-          class="my-3"
-          @click="$router.push('/auth/')"
-          >認証メニュー</b-btn
-        >
-        <b-card-text>登録者メニュー</b-card-text>
-        <b-btn
-          block
-          variant="outline-secondary"
-          size="lg"
-          class="my-3"
-          @click="$router.push('/user/')"
-          >登録者メニュー</b-btn
-        >
-        <b-card-text>個人情報メニュー</b-card-text>
-        <b-btn
-          block
-          variant="outline-secondary"
-          size="lg"
-          class="my-3"
-          @click="$router.push('/profile/')"
-          >個人情報メニュー</b-btn
-        >
-        <b-card-text>apikeyメニュー</b-card-text>
-        <b-btn
-          block
-          variant="outline-secondary"
-          size="lg"
-          class="my-3"
-          @click="$router.push('/apikey/')"
-          >apikeyメニュー</b-btn
+          @click="$router.push('/')"
+          >home</b-btn
         >
       </b-card>
     </div>
-
-
-
-
-
-
-
-
   </b-container>
 </template>
 
