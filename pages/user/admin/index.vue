@@ -23,23 +23,23 @@
     <!-- 登録者メニュー -->
     <div class="mb-3">
       <b-card header="登録者メニュー" header-tag="header" title="">
-        <b-card-text>全ての情報</b-card-text>
+        <b-card-text>新規</b-card-text>
         <b-btn
           block
           variant="outline-secondary"
           size="lg"
           class="my-3"
-          @click="$router.push('/user/admin/')"
-          >全ての情報</b-btn
+          @click="$router.push('/user/admin/create')"
+          >新規</b-btn
         >
-        <b-card-text>詳細</b-card-text>
+        <b-card-text>一覧</b-card-text>
         <b-btn
           block
           variant="outline-secondary"
           size="lg"
           class="my-3"
-          @click="$router.push('/user/**')"
-          >詳細</b-btn
+          @click="$router.push('/user/admin/list')"
+          >一覧</b-btn
         >
       </b-card>
     </div>
