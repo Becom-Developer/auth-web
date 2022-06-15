@@ -32,6 +32,7 @@ export default ({ app, env }, inject) => {
     }
     // 試験中で表示
     for (const path of [
+      '/developers/',
       '/auth/',
       '/auth/login',
       '/auth/logout',

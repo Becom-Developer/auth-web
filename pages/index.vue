@@ -14,7 +14,7 @@
           webapiを利用するためのユーザー登録ができます。
         </b-dropdown-text>
         <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-item href="/developers">開発者の方はこちら</b-dropdown-item>
+        <b-dropdown-item href="/developers/">開発者の方はこちら</b-dropdown-item>
         <b-dropdown-item :href="reloadURL">強制的に再読み込み</b-dropdown-item>
       </b-dropdown>
     </div>
@@ -27,7 +27,7 @@
           variant="outline-secondary"
           size="lg"
           class="my-3"
-          @click="$router.push('/developers')"
+          @click="$router.push('/developers/')"
           >開発者向け</b-btn
         >
         <b-card-text>認証メニュー</b-card-text>
